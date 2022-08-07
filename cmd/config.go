@@ -41,6 +41,9 @@ func addConfigFlags(flags *pflag.FlagSet) {
 	flags.String("recaptcha.key", "", "ReCaptcha site key")
 	flags.String("recaptcha.secret", "", "ReCaptcha secret")
 
+	flags.String("cf_access.teamName", "", "Cloudflare Access team name for auth.method=cf_access")
+	flags.String("cf_access.policyAUD", "", "Cloudflare Access application policy AUD for auth.method=cf_access")
+
 	flags.String("branding.name", "", "replace 'File Browser' by this name")
 	flags.String("branding.color", "", "set the theme color")
 	flags.String("branding.files", "", "path to directory with images and custom styles")
@@ -127,6 +130,22 @@ func getAuthentication(flags *pflag.FlagSet, defaults ...interface{}) (settings.
 		}
 
 		auther = &auth.HookAuth{Command: command}
+	}
+
+	if method == auth.MethodCFAccessAuth {
+		teamName := mustGetString(flags, "cf_access.teamName")
+
+		if teamName == "" {
+			checkErr(nerrors.New("you must set the flag 'cf_access.teamName' for method 'cf_access'"))
+		}
+
+		policyAUD := mustGetString(flags, "cf_access.policyAUD")
+
+		if policyAUD == "" {
+			checkErr(nerrors.New("you must set the flag 'cf_access.policyAUD' for method 'cf_access'"))
+		}
+
+		auther = &auth.CloudflareAccessAuth{TeamName: teamName, PolicyAUD: policyAUD}
 	}
 
 	if auther == nil {

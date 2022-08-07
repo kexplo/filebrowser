@@ -44,6 +44,10 @@ type oldConf struct {
 		Secret string `json:"secret" yaml:"secret" toml:"secret"`
 		Host   string `json:"host" yaml:"host" toml:"host"`
 	} `json:"recaptcha" yaml:"recaptcha" toml:"recaptcha"`
+	CloudflareAccess struct {
+		TeamName  string `json:"teamName" yaml:"teamName" toml:"teamName"`
+		PolicyAUD string `json:"policyAUD" yaml:"policyAUD" toml:"policyAUD"`
+	} `json:"cloudflareAccess" yaml:"cloudflareAccess" toml:"cloudflareAccess"`
 	Auth oldAuth `json:"auth" yaml:"auth" toml:"auth"`
 }
 
@@ -156,6 +160,12 @@ func importConf(db *storm.DB, path string, sto *storage.Storage) error {
 	case "none":
 		auther = &auth.NoAuth{}
 		s.AuthMethod = auth.MethodNoAuth
+	case "cf_access":
+		auther = &auth.CloudflareAccessAuth{
+			TeamName:  cfg.CloudflareAccess.TeamName,
+			PolicyAUD: cfg.CloudflareAccess.PolicyAUD,
+		}
+		s.AuthMethod = auth.MethodCFAccessAuth
 	default:
 		auther = &auth.JSONAuth{
 			ReCaptcha: &auth.ReCaptcha{

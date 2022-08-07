@@ -24,6 +24,8 @@ func (s authBackend) Get(t settings.AuthMethod) (auth.Auther, error) {
 		auther = &auth.HookAuth{}
 	case auth.MethodNoAuth:
 		auther = &auth.NoAuth{}
+	case auth.MethodCFAccessAuth:
+		auther = &auth.CloudflareAccessAuth{}
 	default:
 		return nil, errors.ErrInvalidAuthMethod
 	}
