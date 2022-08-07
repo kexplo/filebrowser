@@ -72,6 +72,8 @@ The path must be for a json or yaml file.`,
 			auther = getAuther(auth.ProxyAuth{}, rawAuther).(*auth.ProxyAuth)
 		case auth.MethodHookAuth:
 			auther = getAuther(&auth.HookAuth{}, rawAuther).(*auth.HookAuth)
+		case auth.MethodCFAccessAuth:
+			auther = getAuther(&auth.CloudflareAccessAuth{}, rawAuther).(*auth.CloudflareAccessAuth)
 		default:
 			checkErr(errors.New("invalid auth method"))
 		}
