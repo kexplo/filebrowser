@@ -348,6 +348,9 @@ export default {
       this.$router.push({ path: uri });
     },
     download() {
+      this.$gtag.event('file_download', {
+        'event_label': decodeURI(this.downloadUrl)
+      });
       window.open(this.downloadUrl);
     },
   },

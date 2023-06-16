@@ -81,6 +81,9 @@ export default {
   },
   mounted() {
     window.addEventListener("keydown", this.keyEvent);
+    this.$gtag.config({
+        'user_id': this.$store.state.user.id
+    });
   },
   beforeDestroy() {
     window.removeEventListener("keydown", this.keyEvent);
