@@ -808,6 +808,9 @@ export default {
     }, 100),
     download() {
       if (this.selectedCount === 1 && !this.req.items[this.selected[0]].isDir) {
+        this.$gtag.event('file_download', {
+          'event_label': decodeURI(this.req.items[this.selected[0]].url)
+        });
         api.download(null, this.req.items[this.selected[0]].url);
         return;
       }
@@ -825,6 +828,12 @@ export default {
             }
           } else {
             files.push(this.$route.path);
+          }
+
+          for (let f of files) {
+            this.$gtag.event('file_download', {
+              'event_label': decodeURI(f)
+            });
           }
 
           api.download(format, ...files);
