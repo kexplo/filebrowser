@@ -8,8 +8,13 @@ import Vue from "@/utils/vue";
 import { recaptcha, loginPage } from "@/utils/constants";
 import { login, validateLogin } from "@/utils/auth";
 import App from "@/App";
+import VueGtag from 'vue-gtag'
 
 cssVars();
+
+Vue.use(VueGtag, {
+  config: { id: 'G-G2GVVCYBD3' }
+}, router);
 
 sync(store, router);
 
