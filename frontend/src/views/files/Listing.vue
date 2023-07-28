@@ -809,7 +809,8 @@ export default {
     download() {
       if (this.selectedCount === 1 && !this.req.items[this.selected[0]].isDir) {
         this.$gtag.event('file_download', {
-          'event_label': decodeURI(this.req.items[this.selected[0]].url)
+          'event_label': decodeURI(this.req.items[this.selected[0]].url),
+          'custom_map': {'dimension2': 'fbuser_id'}
         });
         api.download(null, this.req.items[this.selected[0]].url);
         return;
@@ -832,7 +833,8 @@ export default {
 
           for (let f of files) {
             this.$gtag.event('file_download', {
-              'event_label': decodeURI(f)
+              'event_label': decodeURI(f),
+              'custom_map': {'dimension2': 'fbuser_id'}
             });
           }
 
