@@ -349,7 +349,8 @@ export default {
     },
     download() {
       this.$gtag.event('file_download', {
-        'event_label': decodeURI(this.downloadUrl)
+        'event_label': decodeURI(this.downloadUrl),
+        'fbuser_id': this.$store.state.user.id
       });
       window.open(this.downloadUrl);
     },
