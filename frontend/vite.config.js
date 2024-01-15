@@ -53,6 +53,7 @@ export default defineConfig(({ command }) => {
             ),
           },
         },
+        sourcemap: false,
       },
       experimental: {
         renderBuiltUrl(filename, { hostType }) {
